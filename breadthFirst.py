@@ -115,3 +115,5 @@ def solution(maze):
 while True:  # Delays (waits for user to exit) infinitely
     solution(kruskalsMazeCreator.generateMaze(PER_COLUMN, PER_ROW))
     delay(5000)
+
+if __name__ == "__main__":

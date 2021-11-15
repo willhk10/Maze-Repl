@@ -86,4 +86,4 @@ def generateMaze(perCol, perRow):
 
 while isMain:
     generateMaze(PER_COL, PER_ROW)
-    delay(5000)
+    delay(500000)
