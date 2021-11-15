@@ -16,13 +16,13 @@ BLACK = (0, 0, 0)
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Breadth First Search Maze Solving")
 clock = pygame.time.Clock()  # Starts a clock
-FRAME_LENGTH = 20
-
+FRAME_LENGTH = 0
 
 possibleMoves = [(0, 1), (1, 0), (-1, 0), (0, -1)]
 parentNode = {}
 alivePos = []
 deadPos = []
+
 
 def delay(t):
     nextFrameTime = pygame.time.get_ticks() + t
@@ -36,6 +36,7 @@ def delay(t):
                 pygame.quit()
                 exit()
 
+
 def waitFor(t):
     while pygame.time.get_ticks() < t:
         keys_pressed = pygame.key.get_pressed()  # Gets the keys pressed
@@ -47,51 +48,50 @@ def waitFor(t):
                 pygame.quit()
                 exit()
 
+
 def drawNode(node, color):
-    pygame.draw.rect(WIN, color, pygame.Rect(node[1] * SQUARE_SIZE + BLOCK_SIZE_OFFSET,node[0] * SQUARE_SIZE + BLOCK_SIZE_OFFSET, BLOCK_SIZE, BLOCK_SIZE))
+    pygame.draw.rect(
+        WIN, color,
+        pygame.Rect(node[1] * SQUARE_SIZE + BLOCK_SIZE_OFFSET,
+                    node[0] * SQUARE_SIZE + BLOCK_SIZE_OFFSET, BLOCK_SIZE,
+                    BLOCK_SIZE))
     pygame.display.update()
 
-def cleanDeadPos(deadPos, alivePos):
-    for i in range(len(deadPos)):
-        if i < len(deadPos):
-            pos = deadPos[i]
-            removePos = True
-            for move in possibleMoves:
-                if (pos[0] + move[0], pos[1] + move[1]) in alivePos:
-                    removePos = False
-            if removePos:
-                deadPos.pop(i)
-        
-        
 
 def nextPositions(pos, deadPos, alivePos, maze, bounds):
     global parentNode
     nextPositions = []
     for move in possibleMoves:
         newPos = (pos[0] + move[0], pos[1] + move[1])
-        if newPos in bounds and not newPos in parentNode and maze[newPos[0]][newPos[1]] != 1 and newPos not in alivePos:
-            nextPositions = nextPositions + [(pos[0] + move[0], pos[1] + move[1])]
+        if newPos in bounds and not newPos in set(deadPos) and maze[newPos[0]][
+                newPos[1]] != 1 and newPos not in set(alivePos):
+            nextPositions = nextPositions + [
+                (pos[0] + move[0], pos[1] + move[1])
+            ]
             parentNode[newPos] = pos
+    """"
+    if pos in set(parentNode):
+        if parentNode[pos] in set(parentNode):
+            if parentNode[parentNode[pos]] in deadPos:
+                deadPos.remove(parentNode[parentNode[pos]])
+    """
     return nextPositions
 
 
 def solution(maze):
-    #startTime = 
     WIN.fill(WHITE)
     for y in range(len(maze)):
         for x in range(len(maze[0])):
             if maze[y][x] == 1:
                 drawNode((y, x), BLACK)
                 delay(1)
-    bounds = [(y, x) for y in range(len(maze)) for x in range(len(maze[0]))]
+    bounds = set([(y, x) for y in range(len(maze)) for x in range(len(maze[0]))])
     startPos = (0, 0)
-    endPos = (PER_COLUMN-1, PER_ROW-1)
+    endPos = (PER_COLUMN - 1, PER_ROW - 1)
     deadPos = []
     alivePos = [startPos]
     while endPos not in alivePos and len(alivePos) > 0:
         nextFrameTime = pygame.time.get_ticks() + FRAME_LENGTH
-        #print(len(alivePos))
-        #cleanDeadPos(deadPos, alivePos)
         curPos = alivePos.pop(0)
         drawNode(curPos, DEAD_COLOR)
         deadPos = [curPos] + deadPos
@@ -100,6 +100,8 @@ def solution(maze):
             drawNode(pos, ALIVE_COLOR)
         alivePos = alivePos + childPos
         waitFor(nextFrameTime)
+        print(f"Latency: {pygame.time.get_ticks()-(nextFrameTime)}")
+
     curNode = endPos
     while curNode in parentNode:
         drawNode(curNode, (0, 0, 255))
@@ -110,6 +112,6 @@ def solution(maze):
 
 #solution(maze1)
 
-while True: # Delays (waits for user to exit) infinitely
+while True:  # Delays (waits for user to exit) infinitely
     solution(kruskalsMazeCreator.generateMaze(PER_COLUMN, PER_ROW))
     delay(5000)
