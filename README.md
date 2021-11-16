@@ -3,6 +3,7 @@ Alden Dent and William Keenan's adventures through maze solving and creation alg
 
 ## Table of Contents
 * [Kruskal's Algorith Maze Generation](#kruskalsmazecreatorpy---kruskalls-algorithm-maze-generation) <br/>
+* []
 
 ## [kruskalsMazeCreator.py](https://github.com/willhk10/Maze-Repl/blob/main/kruskalsMazeCreator.py) - Kruskall's Algorithm Maze Generator
 This code implements Kruskall's Algorithm, as described on [this website](https://weblog.jamisbuck.org/2011/1/3/maze-generation-kruskal-s-algorithm), to generate random mazes of any size with only one path between any two points. Additionally, it visualizes the process using a Pygame window.
