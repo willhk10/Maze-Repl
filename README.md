@@ -14,3 +14,5 @@ It then picks edges at random and removes them if doing so doesn't connect cells
 <br/><img src="https://github.com/willhk10/Maze-Repl/blob/main/Media/kruskalsInAction.gif" alt="GIF of code in action" width="400" height="240"><br/>
 
 ## [breadthFirst.py](https://github.com/willhk10/Maze-Repl/blob/main/breadthFirst.py) - Breadth First Search Maze Solver
+
+## [manualMazeCreator.py](https://github.com/willhk10/Maze-Repl/blob/main/manualMazeCreator.py) - Manual Maze Creator
